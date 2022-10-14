@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content %}
+  <h3 class="m-2 text-center">Species information</h3>
+  <h4 class="m-2 text-center"><u>{{ species.com_name }}</u></h4>
+  <p class="feature-subtitle"><b>Scientific name:</b> <i>{{ species.sc_name }}</i></p><br>
+  <p class="feature-subtitle"><b>Common name:</b> {{ species.com_name }}</p><br>
+  <p class="feature-subtitle"><b>Status:</b> {{ species.status }}</p><br>
+  <p class="feature-subtitle"><b>Population:</b> {{ species.population }}</p><br>
+  <p class="feature-subtitle"><b>Habitats:</b>
+    {% for h in habitats %}
+      <a href="/habitat/{{ h.habitat_id }}">{{ h.h_type }}</a>
+    {% endfor %}</p><br>
+  <p class="feature-subtitle"><b>Threats:</b>
+    {% for t in threats %}
+      <a href="/threat/{{ t.threat_id }}">{{ t.kind }}</a>
+    {% endfor %}</p>
+  <img alt="Species" src="../static/images/species/{{ species.com_name+'.jpg' }}" height="400" class="righty">
+  {% if user.role=="admin" %}
+    <div class="container">
+      <button type="button" class="btn btn-secondary" onclick="location.href='/edit-species/{{ species.species_id }}';">
+        <i class="fa fa-pencil pr-2" aria-hidden="true"></i>Edit
+      </button>
+    </div>
+  {% endif %}
+{% endblock %}

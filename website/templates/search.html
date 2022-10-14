@@ -1,0 +1,116 @@
+{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content %}
+  <h3>Search:</h3>
+  <ul>
+    <li>by species name</li>
+    <li>by threat name</li>
+    <li>by habitat name</li>
+    <li>by population</li>
+    <li>by status (select from dropdown)</li>
+  </ul>
+  <div class="navbar navbar-light bg-light">
+    <form class="form-inline" method="POST">
+      <label>
+        <input class="form-control mr-sm-2" id="search-text" type="search" name="search-text" placeholder="Search..."
+               aria-label="Search" autofocus>
+      </label>
+      <label>
+        <input class="form-control mr-sm-2" id="population-search" type="number" name="population-search"
+               placeholder="eg. 100" min="1" max="1000000" aria-label="Population" autofocus style="display: none">
+      </label>
+      <label for="end-status" class="status-selector">
+        <select class="form-control" name="status-selector" id="end-status" style="display: none">
+          <option value="" selected></option>
+          <option value="Critically Endangered">Critically Endangered</option>
+          <option value="Endangered">Endangered</option>
+          <option value="Vulnerable">Vulnerable</option>
+          <option value="Near Threatened">Near Threatened</option>
+          <option value="Least Concern">Least Concern</option>
+        </select>
+      </label>
+      <div class="form-group m-2">
+        <label for="search-by" class="m-1"></label>
+        <select class="form-control" id="search-by" onclick="searchReplaceInput()" name="search-by">
+          <option value="com-name" selected>Species Name</option>
+          <option value="sc-name">Scientific Name</option>
+          <option value="pop">Population</option>
+          <option value="status">Endangered Status</option>
+          <option value="habitat">Habitat</option>
+          <option value="threat">Threat</option>
+        </select>
+      </div>
+      <button class="btn btn-outline-success my-2 mx-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+
+  <div class="container search-results">
+    <div class="content">
+      {% if results %}
+        {% if results["search-by"]=="sc-name" or results["search-by"]=="com-name" or results["search-by"]=="pop" or results["search-by"]=="status" %}
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Scientific Name</th>
+              <th scope="col">Common Name</th>
+              <th scope="col">Status</th>
+              <th scope="col">Population</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for s in results["data"] %}
+              <tr>
+                <th scope="row">{{ loop.index }}.</th>
+                <td><a href="species/{{ s.species_id }}"><i><u>{{ s.sc_name }}</u></i></a></td>
+                <td>{{ s.com_name }}</td>
+                <td>{{ s.status }}</td>
+                <td>{{ s.population }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+        {% if results["search-by"]== "threat" %}
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Threat Name</th>
+              <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for s in results["data"] %}
+              <tr>
+                <th scope="row">{{ loop.index }}.</th>
+                <td><a href="threats/{{ s.threat_id }}"><i><u>{{ s.kind }}</u></i></a></td>
+                <td>{{ s.t_desc }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+        {% if results["search-by"] == "habitat" %}
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Habitat Name</th>
+              <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for s in results["data"] %}
+              <tr>
+                <th scope="row">{{ loop.index }}.</th>
+                <td><a href="threats/{{ s.habitat_id }}"><i><u>{{ s.h_type }}</u></i></a></td>
+                <td>{{ s.h_desc }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+        <p><i>Results: {{ results["length"] }}</i></p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

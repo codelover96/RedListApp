@@ -1,0 +1,77 @@
+body{
+    position: relative;
+    min-height: 100vh;
+}
+
+body::after {
+  content: '';
+  display: block;
+  height: 60px; /* Set same as footer's height */
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* HOME CSS */
+
+.feature-icon{
+    max-width: 50px;
+}
+
+.pill-button-close{
+    padding: 1px 1px 1px 1px;
+    background-color: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    white-space: nowrap;
+    line-height: 1rem;
+    font-size: 0.9rem;
+}
+
+.my-pill-badge{
+    color: #f8f9fa;
+    background-color: #607d8b;
+    line-height: inherit;
+    cursor: pointer;
+}
+.my-pill-badge:hover{
+    color: gray;
+    background-color: whitesmoke;
+}
+
+.my-close-icon{
+    color: lightcoral;
+}
+.my-close-icon:hover{
+    color: red;
+}
+
+.habitat-list-row{
+
+}
+.habitat-list-row:hover{
+    cursor: pointer;
+    background-color: whitesmoke;
+}
+
+/* Search CSS */
+.status-selector{
+
+}
+
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Set the fixed height of the footer here */
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #f5f5f5;
+}
+
+.footer-text{
+    text-align: center;
+}

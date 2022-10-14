@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content
+%}
+<h1 class="m-2 text-center">RedList</h1>
+<h3 class="m-3 p-1 text-center">A database of endangered species</h3>
+<p class="feature-title">
+  <strong>More than 41,000 species</strong> are threatened with extinction
+</p>
+<div class="layout-justify u--margin-bottom-lg">
+  <p class="feature-subtitle">That is still 28% of all assessed species.</p>
+</div>
+
+<div class="container">
+  <img class="feature-icon" alt="" title="Percentage threatened within the group" src="../static/images/taxonomy-amphibians.svg">
+  <span class="heading">Amphibians</span>
+  <span class="pane-data">
+    <strong>41%</strong>
+  </span>
+
+  <img class="feature-icon" alt="" src="../static/images/taxonomy-mammals.svg">
+  <span class="heading">Mammals</span>
+  <span class="pane-data">
+    <strong>27%</strong>
+  </span>
+
+  <img class="feature-icon" alt="" src="../static/images/taxonomy-conifers.svg">
+  <span class="heading">Conifers</span>
+  <span class="pane-data">
+    <strong>34%</strong>
+  </span>
+
+  <img class="feature-icon" alt="" src="../static/images/taxonomy-birds.svg">
+  <span class="heading">Birds</span>
+  <span class="pane-data">
+    <strong>13%</strong>
+  </span>
+
+  <img class="feature-icon" alt="" src="../static/images/taxonomy-sharks.svg">
+  <span class="heading">Sharks &amp; Rays</span>
+  <span class="pane-data">
+    <strong>37%</strong>
+  </span>
+
+  <img class="feature-icon" alt="" src="../static/images/taxonomy-corals.svg">
+  <span class="heading">Reef corals</span>
+  <span class="pane-data">
+    <strong>33%</strong>
+  </span>
+
+  <img class="feature-icon" alt="" src="../static/images/taxonomy-crustaceans.svg">
+  <span class="heading">Selected Crustaceans</span>
+  <span class="pane-data">
+    <strong>28%</strong>
+  </span>
+
+  <img class="feature-icon " alt="" src="../static/images/taxonomy-reptile.svg">
+  <span class="heading">reptiles</span>
+  <span class="pane-data">
+    <strong>21%</strong>
+  </span>
+
+  <img class="feature-icon " alt="" src="../static/images/taxonomy-cycad.svg">
+  <span class="heading">Cycads</span>
+  <span class="pane-data">
+    <strong>69%</strong>
+  </span>
+</div>
+<br>
+<h4>Go to endangered species directory</h4>
+<button type="button" class="btn btn-secondary" onclick="location.href='/species';"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+
+{% endblock %}
