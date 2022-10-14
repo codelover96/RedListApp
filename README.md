@@ -48,6 +48,8 @@ Go to `http://127.0.0.1:5000`
 - Font Awesome
 ### License
 This project is licensed under the terms of the MIT license.
-
+<p align="left">
+<img src="https://github.com/codelover96/RedListApp/blob/master/website/static/images/favicon/mstile-150x150.png?raw=true" alt="RedList Logo">
+</p>
 
 ~codelover96
