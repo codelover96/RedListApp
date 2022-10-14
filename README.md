@@ -34,13 +34,18 @@ Data taken from:
 Go to `http://127.0.0.1:5000`
 
 ### Requirements
+#### <u>Back-End</u>
 - python
 - Flask
 - SQLAlchemy
 - Flask-SQLAlchemy
 - flask-login
 - Flask-LoginManager
-
+#### <u>Front-End</u>
+- Bootstrap
+- jQuery
+- Popper
+- Font Awesome
 ### License
 This project is licensed under the terms of the MIT license.
 

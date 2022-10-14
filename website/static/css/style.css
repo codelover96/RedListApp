@@ -14,6 +14,9 @@ body::after {
 }
 
 /* HOME CSS */
+.logo{
+    max-width: 200px;
+}
 
 .feature-icon{
     max-width: 50px;

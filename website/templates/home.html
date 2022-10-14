@@ -1,15 +1,17 @@
 {% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content
 %}
-<h1 class="m-2 text-center">RedList</h1>
+<div class="container mx-auto mt-4 pt-2">
+  <img class="logo img-fluid mx-auto d-block" alt="RedList Application logo" src="../static/images/logo/original.png">
+</div>
 <h3 class="m-3 p-1 text-center">A database of endangered species</h3>
-<p class="feature-title">
+<p class="feature-title text-center">
   <strong>More than 41,000 species</strong> are threatened with extinction
 </p>
 <div class="layout-justify u--margin-bottom-lg">
-  <p class="feature-subtitle">That is still 28% of all assessed species.</p>
+  <p class="feature-subtitle text-center">That is still 28% of all assessed species.</p>
 </div>
 
-<div class="container">
+<div class="container mx-auto">
   <img class="feature-icon" alt="" title="Percentage threatened within the group" src="../static/images/taxonomy-amphibians.svg">
   <span class="heading">Amphibians</span>
   <span class="pane-data">
@@ -46,6 +48,9 @@
     <strong>33%</strong>
   </span>
 
+</div>
+
+<div class="container mx-auto text-center">
   <img class="feature-icon" alt="" src="../static/images/taxonomy-crustaceans.svg">
   <span class="heading">Selected Crustaceans</span>
   <span class="pane-data">
@@ -64,8 +69,10 @@
     <strong>69%</strong>
   </span>
 </div>
-<br>
-<h4>Go to endangered species directory</h4>
-<button type="button" class="btn btn-secondary" onclick="location.href='/species';"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+
+<div class="container mx-auto text-center m-2 mt-4">
+  <h4 class="text-center">Go to endangered species directory</h4>
+  <button type="button" class="btn btn-secondary text-center" onclick="location.href='/species';"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+</div>
 
 {% endblock %}
