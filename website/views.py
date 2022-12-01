@@ -124,14 +124,14 @@ def habitat_info(habitat_id):
             print(habitat_type, habitat_desc)
             h = update_habitat_controller(habitat_id, habitat_type, habitat_desc)
             flash("Habitat " + "'" + h.h_type + "'" + " updated!", category='success')
-            return render_template("habitat_single.html", user=current_user, habitat_single=h)
+            return render_template("habitat_edit.html", user=current_user, habitat_single=h)
         if request.method == 'GET':
             h = get_habitat_by_id_controller(habitat_id)
-            return render_template("habitat_single.html", user=current_user, habitat_single=h)
+            return render_template("habitat_edit.html", user=current_user, habitat_single=h)
     else:
         if request.method == 'GET':
             h = get_habitat_by_id_controller(habitat_id)
-            return render_template("habitat_single.html", user=current_user, habitat_single=h)
+            return render_template("habitat_edit.html", user=current_user, habitat_single=h)
 
 
 @views.route('/delete-inhabits', methods=['POST'])
@@ -164,10 +164,10 @@ def edit_species_info(species_id):
                                                        request.form.get('category'),
                                                        request.form.get('population'))
             flash("Species " + "'" + species_single.sc_name + "'" + " updated!", category='success')
-            return render_template("species_single.html", user=current_user, species_single=species_single)
+            return render_template("species_edit.html", user=current_user, species_single=species_single)
         if request.method == 'GET':
             species_single = get_species_by_id_controller(species_id)
-            return render_template("species_single.html", user=current_user, species_single=species_single)
+            return render_template("species_edit.html", user=current_user, species_single=species_single)
     else:
         return redirect('/login')
 
@@ -195,14 +195,14 @@ def edit_threat_info(threat_id):
             threat_single = update_threat_controller(threat_id,
                                                      request.form.get('threat_name'), request.form.get('threat_desc'))
             flash("Threat " + "'" + threat_single.kind + "'" + " updated!", category='success')
-            return render_template("threat_single.html", user=current_user, threat_single=threat_single)
+            return render_template("threat_edit.html", user=current_user, threat_single=threat_single)
         if request.method == 'GET':
             threat_single = get_threat_by_id_controller(threat_id)
-            return render_template("threat_single.html", user=current_user, threat_single=threat_single)
+            return render_template("threat_edit.html", user=current_user, threat_single=threat_single)
     else:
         if request.method == 'GET':
             threat_single = get_threat_by_id_controller(threat_id)
-            return render_template("threat_single.html", user=current_user, threat_single=threat_single)
+            return render_template("threat_edit.html", user=current_user, threat_single=threat_single)
 
 
 @views.route('/threats/new-threat', methods=['POST'])

@@ -25,9 +25,7 @@ def create_app():
 
     from website.models import User, Species, Habitat, Threat, ThreatenedBy, Inhabits
 
-    create_database(app)
-    with app.app_context():
-        create_users()
+    create_database()
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
@@ -40,9 +38,10 @@ def create_app():
     return app
 
 
-def create_database(app):
+def create_database():
     if not path.exists('website/' + DB_NAME):
         db.create_all(app=app)
+        create_users()
         print('Database Created!')
 
 

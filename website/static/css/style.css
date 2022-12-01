@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 body{
     position: relative;
     min-height: 100vh;
+    font-family: Montserrat, "Roboto Light", sans-serif;
 }
 
 body::after {
@@ -58,6 +61,15 @@ body::after {
 .habitat-list-row:hover{
     cursor: pointer;
     background-color: whitesmoke;
+}
+
+.edit-button{
+
+}
+
+.form-title {
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 /* Search CSS */

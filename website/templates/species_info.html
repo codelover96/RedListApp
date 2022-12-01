@@ -1,24 +1,43 @@
 {% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content %}
-  <h3 class="m-2 text-center">Species information</h3>
-  <h4 class="m-2 text-center"><u>{{ species.com_name }}</u></h4>
-  <p class="feature-subtitle"><b>Scientific name:</b> <i>{{ species.sc_name }}</i></p><br>
-  <p class="feature-subtitle"><b>Common name:</b> {{ species.com_name }}</p><br>
-  <p class="feature-subtitle"><b>Status:</b> {{ species.status }}</p><br>
-  <p class="feature-subtitle"><b>Population:</b> {{ species.population }}</p><br>
-  <p class="feature-subtitle"><b>Habitats:</b>
-    {% for h in habitats %}
-      <a href="/habitat/{{ h.habitat_id }}">{{ h.h_type }}</a>
-    {% endfor %}</p><br>
-  <p class="feature-subtitle"><b>Threats:</b>
-    {% for t in threats %}
-      <a href="/threat/{{ t.threat_id }}">{{ t.kind }}</a>
-    {% endfor %}</p>
-  <img alt="Species" src="../static/images/species/{{ species.com_name+'.jpg' }}" height="400" class="righty">
+  <h3 class="page-title m-2 text-center">Species information</h3>
+  <h4 class="page-subtitle m-2 text-center"><u>{{ species.com_name }}</u></h4>
+  <div class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <p class="feature-subtitle"><b>Scientific name:</b> <i>{{ species.sc_name }}</i></p>
+      <p class="feature-subtitle"><b>Common name:</b> {{ species.com_name }}</p>
+      <p class="feature-subtitle"><b>Status:</b> {{ species.status }}</p>
+      <p class="feature-subtitle"><b>Population:</b> {{ species.population }}</p>
+    </div>
+    <div class="col">
+      <p class="feature-subtitle"><b>Habitats:</b></p>
+      <ul>
+        {% for h in habitats %}
+          <li><a href="/habitat/{{ h.habitat_id }}">{{ h.h_type }}</a></li>
+        {% endfor %}
+      </ul>
+      <p class="feature-subtitle"><b>Threats:</b></p>
+      <ul>
+      {% for t in threats %}
+        <li><a href="/threat/{{ t.threat_id }}" class="">{{ t.kind }}</a></li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+  </div>
+
+
   {% if user.role=="admin" %}
-    <div class="container">
-      <button type="button" class="btn btn-secondary" onclick="location.href='/edit-species/{{ species.species_id }}';">
-        <i class="fa fa-pencil pr-2" aria-hidden="true"></i>Edit
-      </button>
+    <div class="container m-2 mx-auto">
+      <div class="col text-center">
+        <button type="button" class="btn btn-secondary edit-button" onclick="location.href='/edit-species/{{ species.species_id }}';">
+          <i class="fa fa-pencil pr-2" aria-hidden="true"></i>Edit Properties
+        </button>
+      </div>
     </div>
   {% endif %}
+
+  <div class="container">
+    <img alt="Species" src="../static/images/species/{{ species.com_name+'.jpg' }}" height="600" class="img-fluid">
+  </div>
 {% endblock %}

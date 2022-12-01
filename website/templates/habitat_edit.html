@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content %}
+  {% if user.role == "admin" %}
+    <h3 class="text-center mt-2 pt-1">{{ habitat_single.h_type }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <img class="img-fluid mx-auto d-block" alt="Habitat" src="../static/images/habitat/{{ habitat_single.h_type+'.jpg' }}">
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <form method="POST" class="m-5 p-2">
+        <fieldset>
+          <label for="sc_name" class="form-title">Habitat Name</label><br>
+          <input type="text" id="habitat_type" name="habitat_type" value="{{ habitat_single.h_type }}"
+                 placeholder="{{ habitat_single.h_type }}" class="form-control"><br>
+
+          <label for="com_name" class="form-title">Description</label><br>
+          <textarea id="habitat_desc" name="habitat_desc" placeholder="" class="form-control"
+                    style="height:150px">{{ habitat_single.h_desc }}</textarea>
+        </fieldset>
+        <br/>
+        <div class="center">
+          <button type="submit" class="btn btn-success">Submit Changes <i class="fa fa-arrow-circle-right"
+                                                                          aria-hidden="true"></i></button>
+        </div>
+      </form>
+    </div>
+
+  {% else %}
+    <div class="container">
+    <h3 class="text-center mt-2 pt-1">{{ habitat_single.h_type }}</h3>
+      <p class="habitat_desc text-center"><u>Description</u></p>
+      <p class="feature-subtitle text-center">{{ habitat_single.h_desc }}</p>
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <img class="img-fluid mx-auto d-block" alt="Habitat" src="../static/images/habitat/{{ habitat_single.h_type+'.jpg' }}">
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

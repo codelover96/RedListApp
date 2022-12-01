@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content %}
+{% if user.role == "admin" %}
+  <h3 class="text-center mt-2 pt-1">{{ threat_single.kind }}</h3>
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <img class="img-fluid mx-auto d-block" alt="Threat" src="../static/images/threat/{{ threat_single.kind+'.jpg'}}">
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <form method="POST" class="m-5 p-2">
+      <fieldset>
+          <label for="threat_name" class="form-title">Threat Name</label><br>
+          <input type="text" id="threat_name" name="threat_name" value="{{ threat_single.kind }}" placeholder="{{ threat_single.kind }}" class="form-control"><br>
+
+          <label for="threat_desc" class="form-title">Threat Description</label><br>
+        <textarea id="threat_desc" name="threat_desc" placeholder="" class="form-control" style="height:150px">{{ threat_single.t_desc }}</textarea>
+      </fieldset>
+      <br/>
+      <div class="center">
+            <button type="submit" class="btn btn-success">Submit Changes <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+      </div>
+    </form>
+  </div>
+
+{% else %}
+  <div class="container mx-auto">
+    <h3 class="text-center mt-2 pt-1">{{ threat_single.kind }}</h3>
+    <p class="text-center"><u>Description</u></p>
+    <p class="feature-subtitle text-center">{{ threat_single.t_desc }}</p>
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <img class="img-fluid mx-auto d-block" alt="Threat" src="../static/images/threat/{{ threat_single.kind+'.jpg'}}">
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+{% endblock %}
