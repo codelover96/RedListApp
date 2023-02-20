@@ -62,7 +62,7 @@ You can always specify your desired host and ports like [this](https://stackover
 ### License
 This project is licensed under the terms of the MIT license.
 <p align="left">
-<img src="https://github.com/codelover96/RedListApp/blob/master/website/static/images/favicon/mstile-150x150.png?raw=true" alt="RedList Logo">
+<img src="https://github.com/codelover96/RedListApp/blob/master/app/static/images/favicon/mstile-150x150.png?raw=true" alt="RedList Logo">
 </p>
 
 ~codelover96
