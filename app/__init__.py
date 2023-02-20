@@ -1,31 +1,31 @@
+import os.path
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 
-
+db = SQLAlchemy()
 DB_NAME = 'redlist.db'
-app = Flask(__name__)
-
-app.config['SECRET_KEY'] = 'VJwrDxGxslqGvlouPjAw'
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-
-db = SQLAlchemy(app)
-db.init_app(app)
 
 
 def create_app():
-    from website.views import views
-    from website.auth import auth
-    from website.controllers import controllers
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'VJwrDxGxslqGvlouPjAw'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    db.init_app(app)
+
+    from app.views import views
+    from app.auth import auth
+    from app.controllers import controllers
+    from app.models import User, Species, Habitat, Threat, ThreatenedBy, Inhabits
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(controllers, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from website.models import User, Species, Habitat, Threat, ThreatenedBy, Inhabits
-
-    create_database()
+    with app.app_context():
+        create_database(app)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
@@ -38,16 +38,21 @@ def create_app():
     return app
 
 
-def create_database():
-    if not path.exists('website/' + DB_NAME):
-        db.create_all(app=app)
+def create_database(app):
+    base_path = "D:/Programming/Python/RedListApp/instance"
+    db_path = base_path + "/" + DB_NAME
+    print(db_path)
+
+    if not path.exists(db_path):
+        db.create_all()
         create_users()
         print('Database Created!')
 
 
 def create_users():
-    from website.models import User
+    from app.models import User
     from werkzeug.security import generate_password_hash
+
     admin1 = User(email="admin@gmail.com", password=generate_password_hash(
         "admin", method='sha256'), role="admin")
     db.session.add(admin1)
@@ -59,4 +64,3 @@ def create_users():
     print("'username : password'")
     print("user@gmail.com : user")
     print("admin@gmail.com : admin")
-

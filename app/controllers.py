@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from flask import Blueprint, request
-from website.models import Habitat, Threat, Species, ThreatenedBy, Inhabits
+from app.models import Habitat, Threat, Species, ThreatenedBy, Inhabits
 from . import db
 
 controllers = Blueprint('controllers', __name__)

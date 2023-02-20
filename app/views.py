@@ -2,7 +2,7 @@ import json
 from flask_login import login_required, current_user
 from flask import render_template, flash, jsonify, redirect
 
-from website.controllers import *
+from app.controllers import *
 
 views = Blueprint('views', __name__)
 

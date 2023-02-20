@@ -1,6 +1,6 @@
-flask~=2.0.3
+flask
 Flask-SQLAlchemy
 flask-login
 Flask-LoginManager
-werkzeug~=2.0.3
-sqlalchemy~=1.4.40
+werkzeug
+sqlalchemy==2.0.3
