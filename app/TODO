@@ -1,2 +1,7 @@
 TODO List
-- show species name instead of species id on 'species info' page url
+- show species name instead of species id on 'species info' page url DONE
+- Dynamic footer copyright year with JS DONE
+- Remove unnecessary print and console.log calls
+- Add pagination
+- Test form behaviour and http requests
+- Implement custom validation on form. See: https://getbootstrap.com/docs/4.0/components/forms/#how-it-works

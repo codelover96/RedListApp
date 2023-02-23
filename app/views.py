@@ -52,7 +52,7 @@ def delete_species():
         if species_id:
             if user.id == current_user.id:
                 deleted_species = delete_species_controller(species_id)
-                flash("Species " + "'" + deleted_species.sc_name + "'" + " deleted!", category='success')
+                flash("Species " + "'" + deleted_species.sc_name + "'" + " deleted successfully!", category='success')
         return jsonify({})
     else:
         flash("Operation not permitted!", category='warning')
@@ -284,16 +284,16 @@ def search_post():
     return render_template("search.html", user=current_user, results=results)
 
 
-@views.route('/species/<int:species_id>', methods=['GET'])
+@views.route('/species/<string:sc_name>', methods=['GET'])
 @login_required
-def species_info(species_id):
-    s = Species.query.filter_by(species_id=species_id).first_or_404()
+def species_info_by_name(sc_name):
+    s = Species.query.filter_by(sc_name=sc_name).first_or_404()
 
-    inhabits = Inhabits.query.filter_by(species_id=species_id).all()
+    inhabits = Inhabits.query.filter_by(species_id=s.species_id).all()
     habitats_of_s = []
     threats_of_s = []
 
-    threatened_by = ThreatenedBy.query.filter_by(species_id=species_id).all()
+    threatened_by = ThreatenedBy.query.filter_by(species_id=s.species_id).all()
 
     for i in inhabits:
         habitats_of_s.append(Habitat.query.filter_by(habitat_id=i.habitat_id).first_or_404())

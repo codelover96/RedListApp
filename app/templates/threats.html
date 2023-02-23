@@ -1,104 +1,141 @@
-{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content
-%}
+{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content %}
   <div class="mb-3 pb-2">
-    <h5 class="m-3 p-1 text-center">Threats per species</h5>
-    <p class="text-center">Shows every threat assigned to species</p>
+    <h3 class="m-3 p-1 text-center redlist-tagline">Threats per species</h3>
+    <p class="m-3 p-1 text-center">Display every threat assigned to a species</p>
     <div class="list-group list-group-flush" id="">
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Species Name</th>
-            <th scope="col">Status</th>
-            <th scope="col">Threat</th>
-          </tr>
+      <table class="table mx-auto table-striped table-hover">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Species Name</th>
+          <th scope="col">Status</th>
+          <th scope="col">Threat</th>
+        </tr>
         </thead>
         <tbody>
-          {% for i in threatened_by_dict %}
+        {% for i in threatened_by_dict %}
           <tr>
-            <th scope="row">{{ i }}.</th>
-            <td>{{ species[i-1].com_name }}</td>
-            <td>{{ species[i-1].status }}</td>
-            <td>
-              {%  for t in threatened_by_dict[i] %}
-                <div class="badge badge-pill my-pill-badge">
+          <th scope="row">{{ i }}.</th>
+          <td>{{ species[i-1].com_name }}</td>
+          <td>{{ species[i-1].status }}</td>
+          <td>
+            {% for t in threatened_by_dict[i] %}
+              <div class="badge badge-pill my-pill-badge">
                 <span class="align-middle" onclick="location.href='threat/{{ threats[t-1].threat_id }}'">
                   {{ threats[t-1].kind }}
                 </span>
-                   {% if user.role == "admin" %}
+                {% if user.role == "admin" %}
                   <button aria-label="Close" type="button" class="pill-button-close align-middle"
                           data-toggle="tooltip" data-placement="right" title="Delete threat!"
                           onclick="deleteThreatenedBy({{ t }},{{ i }})">
-                    <span aria-hidden="true"><i class="fa fa-times my-close-icon" style="" aria-hidden="true"></i></span>
+                    <span aria-hidden="true"><i class="fa fa-times my-close-icon" style=""
+                                                aria-hidden="true"></i></span>
                   </button>
-                  {% endif %}
-                </div>
-              {% endfor %}</td>
-          {% endfor %}
-          </tr>
-        </tbody>
-    </table>
-    </div>
-  </div>
-{% if user.role == "admin" %}
-  <div class="form-group">
-    <h3 class="text-center mt-2 pt-1" id="">Assign new threat to a species</h3>
-    <form method="POST" action="/threat/new-threatened-by" class="mx-5 mb-5 px-2 pb-2">
-      <label for="threatened_by_species">Choose an animal:</label>
-      <select class="form-control custom-select my-1 py-1" name="threatened_by_species" id="threatened_by_species">
-        {% for s in species %}
-          <option value="{{ s.species_id }}-{{ s.com_name }}">{{ s.com_name }}</option>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </td>
         {% endfor %}
-      </select>
-      <label for="threatened_by_threat">Choose threat:</label>
-      <select class="form-control custom-select my-1 py-1" name="threatened_by_threat" id="threatened_by_threat">
-        {% for t in threats %}
-          <option value="{{ t.threat_id }}-{{ t.kind }}">{{ t.kind }}</option>
-        {% endfor %}
-      </select>
-
-      <input type="submit" class="btn btn-success mt-2" value="Assign Threat">
-    </form>
-  </div>
-
-  <div class="mb-3 pb-2">
-    <h3 class="mb-3 p-1 text-center">Threats</h3>
-    <p class="text-center">A list of all threats. You can edit or delete a threat</p>
-    <div class="list-group list-group-flush" id="threats">
-      <table class="table">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Threat Name</th>
-          <th scope="col">Description</th>
-          <th scope="col"></th>
         </tr>
-          {% for t in threats %}
-          <tr class="habitat-list-row">
-            <th scope="row">{{ t.threat_id }}</th>
-            <td onclick="location.href='threats/{{ t.threat_id }}'">{{ t.kind }}</td>
-            <td onclick="location.href='threats/{{ t.threat_id }}'">{{ t.t_desc }}</td>
-            <td><button type="button" class="close" onClick="deleteThreat({{ t.threat_id }})">
-              <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-            </button></td>
-          {% endfor %}
-          </tr>
+        </tbody>
       </table>
     </div>
   </div>
-
-  <div class="form-group">
-  <h3 class="text-center mt-2 pt-1" id="">Add new Threat</h3>
-    <form method="POST" action="/threats/new-threat" class="mx-5 mb-5 px-2 pb-2">
-      <label for="threat_name">Threat Name</label>
-      <input type="text" id="threat_name" name="threat_kind" value="" required placeholder="eg. Wildfires" class="form-control"><br>
-
-      <label for="threat_desc">Description</label>
-      <input type="text" id="threat_desc" name="threat_desc" value="" required placeholder="Threat description" class="form-control"><br>
-      <br />
-      <div class="text-center">
-        <button type="submit" class="btn btn-primary">Add Threat</button>
-      </div>
+  {% if user.role == "admin" %}
+    <div class="container">
+      <div class="form-group">
+      <form method="POST" action="/threat/new-threatened-by" class="was-validated m-5 p-2" id="threat-assign-form">
+      <fieldset>
+        <legend class="text-center mt-2 pt-1">Assign new threat to a species</legend>
+        <p class="text-center text-secondary">Choose a species and assign a threat</p>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="threatened_by_species">Choose an animal:</label>
+            <select class="custom-select my-1 py-1" name="threatened_by_species" id="threatened_by_species" required>
+              <option selected class="text-muted"></option>
+              {% for s in species %}
+                <option value="{{ s.species_id }}-{{ s.com_name }}">{{ s.com_name }}</option>
+              {% endfor %}
+            </select>
+          <div class="invalid-feedback">Please select an animal from the list.</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="threatened_by_threat">Choose threat:</label>
+            <select class="custom-select my-1 py-1" name="threatened_by_threat" id="threatened_by_threat" required>
+              <option selected class="text-muted"></option>
+              {% for t in threats %}
+                <option value="{{ t.threat_id }}-{{ t.kind }}">{{ t.kind }}</option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">Please select a threat to assign.</div>
+          </div>
+        </div>
+        <input type="submit" class="btn btn-success mt-2" value="Assign Threat">
+      </fieldset>
       </form>
-  </div>
-{% endif %}
+    </div>
+    </div>
+
+    <div class="section" id="threat-list">
+      <div class="mx-auto">
+        <h5 class="text-center redlist-subheading">Threat List</h5>
+        <p class="text-center">A list of threats and their definitions</p>
+        <p class="text-center">Click on a threat to view and edit it's properties</p>
+      </div>
+      <div class="list-group list-group-flush" id="threats">
+        <table class="table mx-auto table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Threat Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for t in threats %}
+              <tr class="habitat-list-row">
+                <th scope="row">{{ t.threat_id }}</th>
+                <td onclick="location.href='threat/{{ t.threat_id }}'">{{ t.kind }}</td>
+                <td onclick="location.href='threat/{{ t.threat_id }}'">{{ t.t_desc }}</td>
+                <td>
+                  <button type="button" class="close" onClick="deleteThreat({{ t.threat_id }})">
+                    <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                  </button>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="form-group">
+        <form name="new-threat-form" method="POST" action="/threats/new-threat" class="mx-5 mb-5 px-2 pb-2 was-validated">
+          <fieldset>
+            <legend class="my-1 py-3">Add new Threat</legend>
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="threat_name">Threat Name</label>
+                <input type="text" id="threat_name" name="threat_kind" value="" required placeholder="eg. Wildfires"
+                 class="form-control">
+                <div class="invalid-feedback">Threat name is required.</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="threat_desc">Description</label>
+                <input type="text" id="threat_desc" name="threat_desc" value="" required placeholder="Threat description"
+                 class="form-control">
+                <div class="invalid-feedback">A description is required.</div>
+              </div>
+            </div>
+          <button type="submit" form="new-threat-form" class="btn btn-success">Add Threat <i
+              class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}

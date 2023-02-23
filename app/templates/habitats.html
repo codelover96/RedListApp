@@ -1,117 +1,145 @@
-{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content
-%}
-  <div class="mb-3 pb-2">
-    <h5 class="m-3 p-1 text-center">Habitat per species</h5>
-    <p class="text-center">Each species inhabits in the following habitats:</p>
-    <div class="list-group list-group-flush" id="">
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Species Name</th>
-            <th scope="col">Population</th>
-            <th scope="col">Habitat Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for i in inhabits_dict %}
-          <tr>
-            <th scope="row">{{ i }}.</th>
-            <td>{{ species[i-1].com_name }}</td>
-            <td>{{ species[i-1].population }}</td>
-            <td>
-              {%  for h in inhabits_dict[i] %}
-                <div class="badge badge-pill my-pill-badge">
+{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content %}
+  <h3 class="m-3 p-1 text-center redlist-tagline">Habitat per species</h3>
+  <p class="m-3 p-1 text-center">Preview habitats of endangered species.</p>
+  <div class="list-group list-group-flush" id="">
+    <table class="table mx-auto table-striped table-hover">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Species Name</th>
+        <th scope="col">Population</th>
+        <th scope="col">Habitat Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for i in inhabits_dict %}
+        <tr>
+        <th scope="row">{{ i }}.</th>
+        <td>{{ species[i-1].com_name }}</td>
+        <td>{{ species[i-1].population }}</td>
+        <td>
+          {% for h in inhabits_dict[i] %}
+            <div class="badge badge-pill my-pill-badge">
                 <span class="align-middle" onclick="location.href='habitat/{{ habitats[h-1].habitat_id }}'">
                   {{ habitats[h-1].h_type }}
                 </span>
-                  {% if user.role == "admin" %}
-                  <button aria-label="Close" type="button" class="pill-button-close align-middle"
-                          data-toggle="tooltip" data-placement="right" title="Delete habitat!"
-                          onclick="deleteInhabit({{ h }},{{ i }})">
-                    <span aria-hidden="true"><i class="fa fa-times my-close-icon" style="" aria-hidden="true"></i></span>
-                  </button>
-                  {% endif %}
-                </div>
-              {% endfor %}</td>
-          {% endfor %}
-          </tr>
-        </tbody>
+              {% if user.role == "admin" %}
+                <button aria-label="Close" type="button" class="pill-button-close align-middle"
+                        data-toggle="tooltip" data-placement="right" title="Delete habitat!"
+                        onclick="deleteInhabit({{ h }},{{ i }})">
+                  <span aria-hidden="true"><i class="fa fa-times my-close-icon" style="" aria-hidden="true"></i></span>
+                </button>
+              {% endif %}
+            </div>
+          {% endfor %}</td>
+      {% endfor %}
+      </tr>
+      </tbody>
     </table>
-    </div>
   </div>
-{% if user.role == "admin" %}
-  <div class="form-group">
-    <h3 class="text-center mt-2 pt-1" id="">Assign habitat to a species</h3>
-    <form method="POST" action="/habitat/new-inhabits" class="mx-5 mb-5 px-2 pb-2">
-      <label for="inhabits_species">Choose an animal:</label>
-      <select class="form-control custom-select my-1 py-1" name="inhabits_species" id="inhabits_species">
-        {% for s in species %}
-          <option value="{{ s.species_id }}-{{ s.com_name }}">{{ s.com_name }}</option>
-        {% endfor %}
-      </select>
-      <label for="inhabits_habitat">Choose habitat:</label>
-      <select class="form-control custom-select my-1 py-1" name="inhabits_habitat" id="inhabits_habitat">
-        {% for h in habitats %}
-          <option value="{{ h.habitat_id }}-{{ h.h_type }}">{{ h.h_type }}</option>
-        {% endfor %}
-      </select>
 
-      <input type="submit" class="btn btn-success mt-2" value="Assign habitat">
-    </form>
-  </div>
-<nav class="navbar navbar-light mb-3 bg-light border-bottom border-success">
-  <span class="navbar-brand">Actions</span>
-  <form class="form-inline text-center mx-auto">
-    <button type="button" class="btn btn-outline-success m-2" data-toggle="button" aria-pressed="false" onclick="toggleHabitatList()">Show habitat list</button>
-    <button type="button" class="btn btn-outline-success m-2" data-toggle="button" aria-pressed="false" onclick="window.location.href='/species#species-form'">Add new Species</button>
-    <button type="button" class="btn btn-outline-success m-2" data-toggle="button" aria-pressed="false" onclick="toggleHabitatForm()">Add new Habitat</button>
-  </form>
-</nav>
-  <div id="habitat-form" style="display:none">
-    <h3 class="text-center mt-2 pt-1">Add New Habitat</h3>
-    <form name="new-habitat-form" id="new-habitat-form" method="POST" action="/habitat/new-habitat" class="mx-5 mb-5 px-2 pb-2">
-      <fieldset>
-          <label for="sc_name">Habitat Name</label><br>
-          <input type="text" id="sc_name" name="habitat_name" value="" required placeholder="eg. Savanna" class="form-control"><br>
+  {% if user.role == "admin" %}
+    <div class="container">
+      <form method="POST" action="/habitat/new-inhabits" class="mx-5 mb-5 px-2 pb-2">
+        <h3 class="m-3 p-1 text-center redlist-tagline" id="">Assign habitat to a species</h3>
+        <p class="text-center">Create pairs from existing species and habitats.</p>
+        <div class="form-group">
+          <label for="inhabits_species">Choose an animal:</label>
+          <select class="form-control custom-select my-1 py-1" name="inhabits_species" id="inhabits_species" required>
+            <option selected class="text-muted"></option>
+            {% for s in species %}
+              <option value="{{ s.species_id }}-{{ s.com_name }}">{{ s.com_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
 
-          <label for="com_name">Description</label><br>
-          <input type="text" id="com_name" name="habitat_desc" maxlength="1000" minlength="2" required value="" placeholder="eg. scientific definition" class="form-control"><br>
-      </fieldset>
-      <br/>
-      <button type="submit" form="new-habitat-form" class="btn btn-success">Add Habitat <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
-    </form>
-  </div>
-  <div class="section" id="habitat-list" style="display:none">
-  <h5>Habitat List</h5>
-  <p>Scientific definition of each habitat</p>
-    <br>
-    <div class="list-group list-group-flush" id="">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Habitat</th>
-            <th scope="col">Description</th>
-            <th scope="col">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for h in habitats %}
-          <tr class="habitat-list-row">
-            <th scope="row">{{ h.habitat_id }}.</th>
-            <td onclick="location.href='habitat/{{ h.habitat_id }}'"><i>{{ h.h_type }}</i></td>
-            <td onclick="location.href='habitat/{{ h.habitat_id }}'">{{ h.h_desc }}</td>
-            <td>
-              <button type="button" class="close" onClick="deleteHabitat({{ h.habitat_id }})">
-                <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-              </button>
-            </td>
-          {% endfor %}
-          </tr>
-        </tbody>
-      </table>
+        <div class="form-group">
+          <label for="inhabits_habitat">Choose a habitat:</label>
+          <select class="form-control custom-select my-1 py-1" name="inhabits_habitat" id="inhabits_habitat" required>
+            <option selected class="text-muted"></option>
+            {% for h in habitats %}
+              <option value="{{ h.habitat_id }}-{{ h.h_type }}">{{ h.h_type }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <input type="submit" class="btn btn-success mt-2" value="Assign habitat">
+        </div>
+      </form>
+
+
+      <nav class="navbar navbar-light mb-3 bg-light border-bottom border-success">
+        <span class="navbar-brand">More Actions</span>
+        <form class="form-inline text-center mx-auto">
+          <button type="button" class="btn btn-outline-success m-2" data-toggle="button" aria-pressed="false"
+                  onclick="toggleHabitatList()">Show habitat definitions
+          </button>
+          <button type="button" class="btn btn-outline-success m-2" data-toggle="button" aria-pressed="false"
+                  onclick="toggleHabitatForm()">Add new Habitat
+          </button>
+        </form>
+      </nav>
+      <div id="habitat-form" style="display:none">
+        <form name="new-habitat-form" id="new-habitat-form" method="POST" action="/habitat/new-habitat"
+              class="mx-5 mb-5 px-2 pb-2 was-validated">
+          <fieldset>
+            <legend class="my-1 py-3">Add New Habitat</legend>
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="sc_name">Habitat Name</label><br>
+                <input type="text" id="sc_name" name="habitat_name" value="" required placeholder="eg. Savanna"
+                       class="form-control">
+                <div class="invalid-feedback">Habitat name is required.</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="com_name">Description</label><br>
+                <input type="text" id="com_name" name="habitat_desc" maxlength="1000" minlength="2" required value=""
+                       placeholder="eg. Tropical or subtropical grassland" class="form-control">
+                <div class="invalid-feedback">Habitat description is required.</div>
+              </div>
+            </div>
+          </fieldset>
+          <br/>
+          <button type="submit" form="new-habitat-form" class="btn btn-success">Add Habitat <i
+              class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+        </form>
+      </div>
+      <div class="section" id="habitat-list" style="display:none">
+        <div class="mx-auto">
+          <h5 class="text-center redlist-subheading">Habitat List</h5>
+          <p class="text-center">Scientific definition of each habitat</p>
+          <p class="text-center">Click on a habitat to view and edit it's properties</p>
+        </div>
+        <div class="list-group list-group-flush" id="">
+          <table class="table mx-auto table-striped table-hover">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Habitat</th>
+              <th scope="col">Description</th>
+              <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for h in habitats %}
+              <tr class="habitat-list-row">
+                <th scope="row">{{ h.habitat_id }}.</th>
+                <td onclick="location.href='habitat/{{ h.habitat_id }}'"><i>{{ h.h_type }}</i></td>
+                <td onclick="location.href='habitat/{{ h.habitat_id }}'">{{ h.h_desc }}</td>
+                <td>
+                  <button type="button" class="close" onClick="deleteHabitat({{ h.habitat_id }})">
+                    <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                  </button>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
-{% endif %}
+  {% endif %}
 {% endblock %}

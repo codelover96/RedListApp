@@ -1,68 +1,93 @@
-{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content
-%}
-<h1 class="m-2 text-center">RedList Directory</h1>
-<h3 class="m-3 p-1 text-center">A database of endangered species</h3>
-<div class="list-group list-group-flush" id="">
-  <table class="table">
-    <thead>
+{% extends "base.html" %} {% block title %}RedList{% endblock %} {% block content %}
+  <h3 class="m-3 p-1 text-center redlist-tagline">Endangered species directory</h3>
+  <p class="m-3 p-1 text-center">Preview documented endangered species and their details.</p>
+  <div class="list-group list-group-flush" id="">
+    <table class="table mx-auto table-striped table-hover">
+      <thead class="thead-dark">
       <tr>
         <th scope="col">#</th>
         <th scope="col">Scientific Name</th>
         <th scope="col">Common Name</th>
         <th scope="col">Status</th>
         <th scope="col">Population</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
+        {% if user.role == "admin" %}
+          <th scope="col"></th>
+          <th scope="col"></th>
+        {% endif %}
       </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
       {% for s in species %}
-      <tr>
+        <tr>
         <th scope="row">{{ s.species_id }}.</th>
-        <td><a href="species/{{ s.species_id }}"><i><u>{{ s.sc_name }}</u></i></a></td>
+        <td><a href="species/{{ s.sc_name }}"><i><u>{{ s.sc_name }}</u></i></a></td>
         <td>{{ s.com_name }}</td>
         <td>{{ s.status }}</td>
         <td>{{ s.population }}</td>
         {% if user.role == "admin" %}
-        <td><button type="button" class="close" onClick="deleteSpecies({{ s.species_id }})">
-          <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-        </button></td>
-        <td><button type="button" class="close" onClick="location.href='edit-species/{{ s.species_id }}'">
-          <span aria-hidden="true"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-        </button></td>
+          <td>
+            <button type="button" class="close" onClick="deleteSpecies({{ s.species_id }})">
+              <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+            </button>
+          </td>
+          <td>
+            <button type="button" class="close" onClick="location.href='edit-species/{{ s.species_id }}'">
+              <span aria-hidden="true"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+            </button>
+          </td>
         {% endif %}
       {% endfor %}
       </tr>
-    </tbody>
-  </table>
-</div>
-{% if user.role == "admin" %}
-<form method="POST" class="m-5 p-2" id="species-form">
-  <fieldset>
-    <legend><u>Add new</u></legend>
-    <p class="text-secondary">Fill the details below and press 'Submit' to add new species.</p>
-      <label for="sc_name">Scientific Name:</label><br>
-      <input type="text" id="sc_name" name="sc_name" value="" placeholder="eg. Caretta caretta" class="form-control"><br>
-
-      <label for="com_name">Common Name:</label><br>
-      <input type="text" id="com_name" name="com_name" value="" placeholder="eg. Loggerhead sea turtle" class="form-control"><br>
-
-      <label for="endangered_categories">Endangered Status:</label><br>
-      <select class="custom-select" name="category" id="endangered_categories">
-        <option value="Critically Endangered">Critically Endangered</option>
-        <option value="Endangered">Endangered</option>
-        <option value="Vulnerable">Vulnerable</option>
-        <option value="Near Threatened">Near Threatened</option>
-        <option value="Least Concern">Least Concern</option>
-      </select><br>
-      <br>
-      <label for="population">Population:</label><br>
-      <input type="number" id="population" name="population" value="" placeholder="eg. 100" class="form-control" min="1" max="10000000">
-  </fieldset>
-  <br/>
-  <div class="center">
-    <button type="submit" class="btn btn-dark">Submit</button>
+      </tbody>
+    </table>
   </div>
-</form>
-{% endif %}
+
+  {% if user.role == "admin" %}
+    <div class="container">
+      <form method="POST" class="was-validated m-5 p-2" id="species-form">
+        <fieldset>
+          <legend class="my-1 py-3">Add new Species</legend>
+          <p class="text-secondary">Fill the details below and press 'Submit' to add new species.</p>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="sc_name">Scientific Name:</label><br>
+              <input type="text" id="sc_name" name="sc_name" value="" placeholder="eg. Caretta caretta"
+                     class="form-control" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="com_name">Common Name:</label><br>
+              <input type="text" id="com_name" name="com_name" value="" placeholder="eg. Loggerhead sea turtle"
+                     class="form-control" required>
+            </div>
+
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="endangered_categories">Endangered Status:</label><br>
+              <select class="custom-select" name="category" id="endangered_categories" required>
+                <option value="">Choose:</option>
+                <option value="Critically Endangered">Critically Endangered</option>
+                <option value="Endangered">Endangered</option>
+                <option value="Vulnerable">Vulnerable</option>
+                <option value="Near Threatened">Near Threatened</option>
+                <option value="Least Concern">Least Concern</option>
+              </select>
+              <div class="invalid-feedback">Please select an option for endangered status.</div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="population">Population:</label><br>
+              <input type="number" id="population" name="population" value="" placeholder="eg. 100" class="form-control"
+                     min="1" max="10000000" required>
+              <div class="invalid-feedback">Please type animal population.</div>
+            </div>
+          </div>
+        </fieldset>
+        <br/>
+        <div class="center">
+          <button type="submit" class="btn btn-dark">Submit</button>
+        </div>
+      </form>
+    </div>
+  {% endif %}
 {% endblock %}

@@ -11,20 +11,44 @@ body::after {
   display: block;
   height: 60px; /* Set same as footer's height */
 }
+table{
+    max-width: 1350px;
+}
+table td{
+    font-size: 14px;
+}
+table tr{
+    font-size: 14px;
+}
 
+legend{
+    font-weight: 600;
+}
+
+/* Home CSS */
+.headline{
+
+}
 .text-center {
   text-align: center;
 }
-
-/* HOME CSS */
 .logo{
     max-width: 200px;
 }
-
 .feature-icon{
     max-width: 50px;
 }
+.redlist-tagline{
+    line-height: 2.2em;
+    font-weight: 600;
+}
+.redlist-subheading{
+    line-height: 2em;
+    font-weight: 600;
+}
+.my-binoculars{
 
+}
 .pill-button-close{
     padding: 1px 1px 1px 1px;
     background-color: transparent;
@@ -36,7 +60,6 @@ body::after {
     line-height: 1rem;
     font-size: 0.9rem;
 }
-
 .my-pill-badge{
     color: #f8f9fa;
     background-color: #607d8b;
@@ -47,14 +70,12 @@ body::after {
     color: gray;
     background-color: whitesmoke;
 }
-
 .my-close-icon{
     color: lightcoral;
 }
 .my-close-icon:hover{
     color: red;
 }
-
 .habitat-list-row{
 
 }
@@ -62,22 +83,27 @@ body::after {
     cursor: pointer;
     background-color: whitesmoke;
 }
-
 .edit-button{
 
 }
-
 .form-title {
     text-decoration: underline;
     font-weight: bold;
 }
+/* End Home CSS */
+
 
 /* Search CSS */
 .status-selector{
 
 }
+/* End Search CSS */
 
 
+/* Footer CSS */
+.footer-text{
+    text-align: center;
+}
 .footer {
   position: absolute;
   bottom: 0;
@@ -86,7 +112,4 @@ body::after {
   line-height: 60px; /* Vertically center the text there */
   background-color: #f5f5f5;
 }
-
-.footer-text{
-    text-align: center;
-}
+/* End Footer CSS */
