@@ -21,7 +21,7 @@
           <td>
             {% for t in threatened_by_dict[i] %}
               <div class="badge badge-pill my-pill-badge">
-                <span class="align-middle" onclick="location.href='threat/{{ threats[t-1].threat_id }}'">
+                <span class="align-middle" onclick="location.href='threat/{{ threats[t-1].kind }}'">
                   {{ threats[t-1].kind }}
                 </span>
                 {% if user.role == "admin" %}
@@ -96,8 +96,8 @@
             {% for t in threats %}
               <tr class="habitat-list-row">
                 <th scope="row">{{ t.threat_id }}</th>
-                <td onclick="location.href='threat/{{ t.threat_id }}'">{{ t.kind }}</td>
-                <td onclick="location.href='threat/{{ t.threat_id }}'">{{ t.t_desc }}</td>
+                <td onclick="location.href='threat/{{ t.kind }}'">{{ t.kind }}</td>
+                <td onclick="location.href='threat/{{ t.kind }}'">{{ t.t_desc }}</td>
                 <td>
                   <button type="button" class="close" onClick="deleteThreat({{ t.threat_id }})">
                     <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
@@ -112,7 +112,7 @@
 
     <div class="container">
       <div class="form-group">
-        <form name="new-threat-form" method="POST" action="/threats/new-threat" class="mx-5 mb-5 px-2 pb-2 was-validated">
+        <form name="new-threat-form" id="new-threat-form" method="POST" action="/threats/new-threat" class="mx-5 mb-5 px-2 pb-2 was-validated">
           <fieldset>
             <legend class="my-1 py-3">Add new Threat</legend>
             <div class="form-row">
@@ -131,9 +131,9 @@
                 <div class="invalid-feedback">A description is required.</div>
               </div>
             </div>
-          <button type="submit" form="new-threat-form" class="btn btn-success">Add Threat <i
-              class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
           </fieldset>
+          <button type="submit" form="new-threat-form" class="btn btn-success">Add Threat <i
+            class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
         </form>
       </div>
     </div>

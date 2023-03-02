@@ -35,6 +35,9 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+      <a class="navbar-brand" href="#">
+        <img src="../static/images/logo/original.png" width="60" height="60" alt="">
+      </a>
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
           {% if user.is_authenticated %}
@@ -71,7 +74,7 @@
     {% endif %} {% endfor %} {% endif %} {% endwith %}
 
     <!-- CONTENT -->
-    <div class="container-fluid px-5">{% block content %} {% endblock %}</div>
+    <div class="container-fluid">{% block content %} {% endblock %}</div>
 
     <footer class="footer">
       <div class="container">

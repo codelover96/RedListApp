@@ -1,28 +1,41 @@
-{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
-%}
-<form method="POST">
-  <h3 class="text-center">Login</h3>
-  <div class="form-group">
-    <label for="email">Email Address</label>
-    <input
-      type="email"
-      class="form-control"
-      id="email"
-      name="email"
-      placeholder="Enter email"
-    />
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content %}
+  <div class="container mx-auto">
+    <h3 class="redlist-tagline text-center">Login</h3>
+    <form method="POST" class="">
+      <div class="form-group row">
+        <label for="email">Email Address</label>
+        <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Enter email"
+            aria-describedby="emailExample"
+        />
+        <small id="emailExample" class="form-text text-muted">
+          admin@gmail.com or user@gmail.com
+        </small>
+      </div>
+      <div class="form-group row">
+        <label for="password">Password</label>
+        <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+            aria-describedby="passwordExample"
+        />
+        <small id="passwordExample" class="form-text text-muted">
+          <i>admin or user</i>
+        </small>
+      </div>
+      <div class="form-group row">
+        <div class="">
+          <button type="submit" class="btn btn-secondary">Login</button>
+        </div>
+      </div>
+    </form>
   </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-      type="password"
-      class="form-control"
-      id="password"
-      name="password"
-      placeholder="Enter password"
-    />
-  </div>
-  <br />
-  <button type="submit" class="btn btn-primary">Login</button>
-</form>
+
 {% endblock %}

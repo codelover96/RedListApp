@@ -113,25 +113,26 @@ def add_new_habitat():
     return redirect('/habitats')
 
 
-@views.route('/habitat/<int:habitat_id>', methods=['POST', 'GET'])
+@views.route('/habitat/<string:habitat_type>', methods=['POST', 'GET'])
 @login_required
-def habitat_info(habitat_id):
+def habitat_info(habitat_type):
     user = current_user
+    h = Habitat.query.filter_by(h_type=habitat_type).first_or_404()
     if user.role == "admin":
         if request.method == 'POST':
             habitat_type = request.form.get('habitat_type')
             habitat_desc = request.form.get('habitat_desc')
             print(habitat_type, habitat_desc)
-            h = update_habitat_controller(habitat_id, habitat_type, habitat_desc)
+            habitat_single = update_habitat_controller(h.habitat_id, habitat_type, habitat_desc)
             flash("Habitat " + "'" + h.h_type + "'" + " updated!", category='success')
-            return render_template("habitat_edit.html", user=current_user, habitat_single=h)
+            return render_template("habitat_edit.html", user=current_user, habitat_single=habitat_single)
         if request.method == 'GET':
-            h = get_habitat_by_id_controller(habitat_id)
-            return render_template("habitat_edit.html", user=current_user, habitat_single=h)
+            habitat_single = get_habitat_by_id_controller(h.habitat_id)
+            return render_template("habitat_edit.html", user=current_user, habitat_single=habitat_single)
     else:
         if request.method == 'GET':
-            h = get_habitat_by_id_controller(habitat_id)
-            return render_template("habitat_edit.html", user=current_user, habitat_single=h)
+            habitat_single = get_habitat_by_id_controller(h.habitat_id)
+            return render_template("habitat_edit.html", user=current_user, habitat_single=habitat_single)
 
 
 @views.route('/delete-inhabits', methods=['POST'])
@@ -148,9 +149,9 @@ def delete_inhabits():
         flash("Operation not permitted!", category='warning')
 
 
-@views.route('/edit-species/<int:species_id>', methods=['POST', 'GET'])
+@views.route('/edit-species/<string:species_sc_name>', methods=['POST', 'GET'])
 @login_required
-def edit_species_info(species_id):
+def edit_species_info(species_sc_name):
     user = current_user
     if user.role == "admin":
         if request.method == 'POST':
@@ -158,7 +159,8 @@ def edit_species_info(species_id):
                   request.form.get('com_name'),
                   request.form.get('category'),
                   request.form.get('population'))
-            species_single = update_species_controller(species_id,
+            s = Species.query.filter_by(sc_name=species_sc_name).first_or_404()
+            species_single = update_species_controller(s.species_id,
                                                        request.form.get('com_name'),
                                                        request.form.get('sc_name'),
                                                        request.form.get('category'),
@@ -166,9 +168,10 @@ def edit_species_info(species_id):
             flash("Species " + "'" + species_single.sc_name + "'" + " updated!", category='success')
             return render_template("species_edit.html", user=current_user, species_single=species_single)
         if request.method == 'GET':
-            species_single = get_species_by_id_controller(species_id)
+            species_single = get_species_by_sc_name_controller(species_sc_name)
             return render_template("species_edit.html", user=current_user, species_single=species_single)
     else:
+        # TODO: redirect to species directory instead of asking for log in.
         return redirect('/login')
 
 
@@ -183,25 +186,26 @@ def all_threats():
                            threatened_by=threatened_by, threatened_by_dict=threatened_by_dict)
 
 
-@views.route('/threat/<int:threat_id>', methods=['POST', 'GET'])
+@views.route('/threat/<string:threat_kind>', methods=['POST', 'GET'])
 @login_required
-def edit_threat_info(threat_id):
+def edit_threat_info(threat_kind):
     user = current_user
+    t = Threat.query.filter_by(kind=threat_kind).first_or_404()
     if user.role == "admin":
         if request.method == 'POST':
             print(request.form.get('threat_name'),
                   request.form.get('threat_desc'))
 
-            threat_single = update_threat_controller(threat_id,
+            threat_single = update_threat_controller(t.threat_id,
                                                      request.form.get('threat_name'), request.form.get('threat_desc'))
             flash("Threat " + "'" + threat_single.kind + "'" + " updated!", category='success')
             return render_template("threat_edit.html", user=current_user, threat_single=threat_single)
         if request.method == 'GET':
-            threat_single = get_threat_by_id_controller(threat_id)
+            threat_single = get_threat_by_id_controller(t.threat_id)
             return render_template("threat_edit.html", user=current_user, threat_single=threat_single)
     else:
         if request.method == 'GET':
-            threat_single = get_threat_by_id_controller(threat_id)
+            threat_single = get_threat_by_id_controller(t.threat_id)
             return render_template("threat_edit.html", user=current_user, threat_single=threat_single)
 
 

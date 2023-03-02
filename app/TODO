@@ -5,3 +5,10 @@ TODO List
 - Add pagination
 - Test form behaviour and http requests
 - Implement custom validation on form. See: https://getbootstrap.com/docs/4.0/components/forms/#how-it-works
+- Do not add habitat or threat if it already exists
+- Change route from /habitat to plural i.e. /habitats. Be sure to change /habitat/new-habitat route.
+- Let user upload a new image, or replace the existing one
+- When adding new species/habitat/threat, upload new image
+- Every data object should have a key representing the image's filename in database
+- Beautify species_info, threat_edit and habitat_edit
+- Add transition animations and lazy load

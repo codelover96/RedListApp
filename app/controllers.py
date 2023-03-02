@@ -3,6 +3,7 @@ from collections import defaultdict
 from flask import Blueprint, request
 from app.models import Habitat, Threat, Species, ThreatenedBy, Inhabits
 from . import db
+from sqlalchemy import or_
 
 controllers = Blueprint('controllers', __name__)
 
@@ -25,6 +26,14 @@ def add_species_controller(request_data):
     db.session.commit()
     species = Species.query.all()
     return new_species, species
+
+
+def species_exists(sc_name, com_name):
+    species_instance = Species.query.filter(or_(Species.sc_name == sc_name, Species.com_name == com_name)).first()
+    if species_instance:
+        return False
+    else:
+        return True
 
 
 @controllers.route('/delete-species', methods=['POST'])
@@ -87,7 +96,6 @@ def add_new_inhabits_controller(habitat_id, species_id):
 
 @controllers.route('/habitat/new-habitat', methods=['POST'])
 def add_new_habitat_controller(request_data):
-    print("add new habitat controller")
     ht = request.form.get('habitat_name')
     hd = request.form.get('habitat_desc')
     new_habitat = Habitat()
@@ -129,6 +137,12 @@ def delete_inhabits_controller(habitat_id, species_id):
 @controllers.route('/edit-species/<int:species_id>', methods=['GET'])
 def get_species_by_id_controller(species_id):
     species_single = Species.query.filter_by(species_id=species_id).first_or_404()
+    return species_single
+
+
+@controllers.route('/edit-species/<string:sc_name>', methods=['GET'])
+def get_species_by_sc_name_controller(species_sc_name):
+    species_single = Species.query.filter_by(sc_name=species_sc_name).first_or_404()
     return species_single
 
 
@@ -175,11 +189,12 @@ def update_threat_controller(threat_id, kind, description):
 
 @controllers.route('/threats/new-threat', methods=['POST'])
 def add_new_threat_controller(request_data):
-    tk = request_data.get('threat_kind')
-    td = request_data.get('threat_desc')
+    tk = request.form.get('threat_kind')
+    td = request.form.get('threat_desc')
     new_threat = Threat()
     new_threat.kind = tk
     new_threat.t_desc = td
+    new_threat.show_threat()
     new_threat.show_threat()
     db.session.add(new_threat)
     db.session.commit()

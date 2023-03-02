@@ -20,7 +20,7 @@
         <td>
           {% for h in inhabits_dict[i] %}
             <div class="badge badge-pill my-pill-badge">
-                <span class="align-middle" onclick="location.href='habitat/{{ habitats[h-1].habitat_id }}'">
+                <span class="align-middle" onclick="location.href='habitat/{{ habitats[h-1].h_type }}'">
                   {{ habitats[h-1].h_type }}
                 </span>
               {% if user.role == "admin" %}
@@ -127,8 +127,8 @@
             {% for h in habitats %}
               <tr class="habitat-list-row">
                 <th scope="row">{{ h.habitat_id }}.</th>
-                <td onclick="location.href='habitat/{{ h.habitat_id }}'"><i>{{ h.h_type }}</i></td>
-                <td onclick="location.href='habitat/{{ h.habitat_id }}'">{{ h.h_desc }}</td>
+                <td onclick="location.href='habitat/{{ h.h_type }}'"><i>{{ h.h_type }}</i></td>
+                <td onclick="location.href='habitat/{{ h.h_type }}'">{{ h.h_desc }}</td>
                 <td>
                   <button type="button" class="close" onClick="deleteHabitat({{ h.habitat_id }})">
                     <span aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
