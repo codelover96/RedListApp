@@ -90,6 +90,23 @@ legend{
     text-decoration: underline;
     font-weight: bold;
 }
+
+.species-image-container {
+    height: 20vh !important;
+}
+
+.species-image {
+
+}
+
+.masthead {
+    height: 31vh;
+    min-height: 200px;
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
 /* End Home CSS */
 
 
