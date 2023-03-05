@@ -1,9 +1,19 @@
-# RedList
-#### Flask Web Application based on the MVC design pattern.
 
+<h1 align="left">RedList</h1>
+<h5 align="left">
+Flask Web Application based on the MVC design pattern.
+</h5>
+<p align="left">
 RedList is a catalog of endangered species, providing CRUD and search functionalities.
+</p>
 
-![African Rhino showcase](https://github.com/codelover96/RedListApp/blob/master/showcase.jpg?raw=true)
+<p align="left">
+<img src="https://github.com/codelover96/RedListApp/blob/master/app%20snapshots/home.PNG?raw=ture" alt="RedList Application Home Page" width="1200"/>
+</p>
+
+<p align="left">
+<img src="https://github.com/codelover96/RedListApp/blob/master/app%20snapshots/species/directory.PNG?raw=ture" alt="RedList Species Directory" width="1200"/>
+</p>
 
 ##### Uses:
 - manage and keep record of endangered species across the world.
@@ -20,6 +30,11 @@ Data taken from:
 - [ICUN Red List](https://www.iucnredlist.org/)
 - [Endangered and Threatened Species Free Databases
 ](https://guides.loc.gov/endangered-species/electronic-resources/free-databases)
+
+<p align="left">
+<img src="https://github.com/codelover96/RedListApp/blob/master/showcase.jpg?raw=true" alt="African Rhino standing on a plain field" width="600">
+</p>
+
 
 # Development
 ### Setup & Installation
